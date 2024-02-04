@@ -11,6 +11,10 @@ int main(int argc, char *argv[])
 {
 	FILE *file;
 	char line[256];
+	char *token_list[2];
+	int element, i = 1;
+	long num;
+	char *num_check = NULL;
 
 	if (argc != 2)
 	{
@@ -27,7 +31,41 @@ int main(int argc, char *argv[])
 
 	while (fgets(line, sizeof(line), file) != NULL)
 	{
-		execute_line(line);
+		token_list[0] = strtok(line, " \n");
+
+		if (token_list[0] != NULL)
+		{
+			if (strcmp(token_list[0], "push") == 0)
+			{
+				token_list[1] = strtok(NULL, " \n");
+				if (token_list[1] != NULL)
+				{
+					num = strtol(token_list[1], &num_check, 10);
+					if (*num_check != '\0' && *num_check != '\n')
+					{
+						fprintf(stderr, "L%d: usage: push integer\n", i);
+						exit(EXIT_FAILURE);
+					}
+					element = num;
+					push(element);
+				}
+				else
+				{
+					fprintf(stderr, "L%d: usage: push integer\n", i);
+					exit(EXIT_FAILURE);
+				}
+			}
+			else if (strcmp(token_list[0], "pall") == 0)
+			{
+				pall();
+			}
+			else
+			{
+				fprintf(stderr, "L%d: unknown instruction %s\n", i, token_list[0]);
+				exit(EXIT_FAILURE);
+			}
+		}
+		i++;
 	}
 
 	fclose(file);
@@ -83,54 +121,4 @@ void pall(void)
 		printf("%d\n", pointer->n);
 		pointer = pointer->next;
 	}
-}
-
-/**
- * execute_line - a function that executes a command from a line
- * Prototype: void execute_line(char *line);
- * @line: command + argument
- * return: void
- */
-
-void execute_line(char *line)
-{
-	char *token_list[2];
-	int element, i = 1;
-	long num;
-	char *num_check = NULL;
-
-	token_list[0] = strtok(line, " \n");
-	if (token_list[0] != NULL)
-	{
-		if (strcmp(token_list[0], "push") == 0)
-		{
-			token_list[1] = strtok(NULL, " \n");
-			if (token_list[1] != NULL)
-			{
-				num = strtol(token_list[1], &num_check, 10);
-				if (*num_check != '\0' && *num_check != '\n')
-				{
-					fprintf(stderr, "L%d: usage: push integer\n", i);
-					exit(EXIT_FAILURE);
-				}
-				element = num;
-				push(element);
-			}
-			else
-			{
-				fprintf(stderr, "L%d: usage: push integer\n", i);
-				exit(EXIT_FAILURE);
-			}
-		}
-		else if (strcmp(token_list[0], "pall") == 0)
-		{
-			pall();
-		}
-		else
-		{
-			fprintf(stderr, "L%d: unknown instruction %s\n", i, token_list[0]);
-			exit(EXIT_FAILURE);
-		}
-	}
-	i++;
 }
