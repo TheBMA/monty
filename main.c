@@ -59,6 +59,10 @@ int main(int argc, char *argv[])
 			{
 				pall();
 			}
+			else if (strcmp(token_list[0], "nop") == 0)
+			{
+				;
+			}
 			else
 			{
 				fprintf(stderr, "L%d: unknown instruction %s\n", i, token_list[0]);
