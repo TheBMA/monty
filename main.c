@@ -18,14 +18,14 @@ int main(int argc, char *argv[])
 
 	if (argc != 2)
 	{
-		printf("USAGE: monty file\n");
+		fprintf(stderr, "USAGE: monty file\n");
 		exit(EXIT_FAILURE);
 	}
 
 	file = fopen(argv[1], "r");
 	if (file == NULL)
 	{
-		printf("Error: Can't open file %s\n", argv[1]);
+		fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
 		exit(EXIT_FAILURE);
 	}
 
@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
 					num = strtol(token_list[1], &num_check, 10);
 					if (*num_check != '\0' && *num_check != '\n')
 					{
-						printf("L%d: usage: push integer\n", i);
+						fprintf(stderr, "L%d: usage: push integer\n", i);
 						exit(EXIT_FAILURE);
 					}
 					element = num;
@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
 				}
 				else
 				{
-					printf("L%d: usage: push integer\n", i);
+					fprintf(stderr, "L%d: usage: push integer\n", i);
 					exit(EXIT_FAILURE);
 				}
 			}
@@ -61,7 +61,7 @@ int main(int argc, char *argv[])
 			}
 			else
 			{
-				printf("L%d: unknown instruction %s\n", i, token_list[0]);
+				fprintf(stderr, "L%d: unknown instruction %s\n", i, token_list[0]);
 				exit(EXIT_FAILURE);
 			}
 		}
@@ -84,7 +84,7 @@ void push(int element)
 	stack_t *pointer = (stack_t *)malloc(sizeof(stack_t));
 	if (pointer == NULL)
 	{
-		printf("Error: malloc failed\n");
+		fprintf(stderr, "Error: malloc failed\n");
 		exit(EXIT_FAILURE);
 	}
 	else
