@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
 	char *token_list[2];
 	int element, i = 1;
 	long num;
-	char *num_check;
+	char *num_check = NULL;
 
 	if (argc != 2)
 	{
@@ -28,11 +28,6 @@ int main(int argc, char *argv[])
 		printf("Error: Can't open file %s\n", argv[1]);
 		exit(EXIT_FAILURE);
 	}
-	
-/*If you can’t malloc anymore, print the error message Error: malloc failed,
-followed by a new line, and exit with status EXIT_FAILURE. You have to use
-malloc and free and are not allowed to use any other function from man malloc
-(realloc, calloc, …)*/
 
 	while (fgets(line, sizeof(line), file) != NULL)
 	{
@@ -45,10 +40,10 @@ malloc and free and are not allowed to use any other function from man malloc
 				token_list[1] = strtok(NULL, " \n");
 				if (token_list[1] != NULL)
 				{
-					num = strtol(token_list[1], num_check, 10);
+					num = strtol(token_list[1], &num_check, 10);
 					if (*num_check != '\0' && *num_check != '\n')
 					{
-						printf("L%d: usage: push integer", i);
+						printf("L%d: usage: push integer\n", i);
 						exit(EXIT_FAILURE);
 					}
 					element = num;
@@ -56,7 +51,7 @@ malloc and free and are not allowed to use any other function from man malloc
 				}
 				else
 				{
-					printf("L%d: usage: push integer", i);
+					printf("L%d: usage: push integer\n", i);
 					exit(EXIT_FAILURE);
 				}
 			}
@@ -72,7 +67,7 @@ malloc and free and are not allowed to use any other function from man malloc
 		}
 		i++;
 	}
-	
+
 	fclose(file);
 	return (0);	
 }
@@ -86,7 +81,28 @@ malloc and free and are not allowed to use any other function from man malloc
 
 void push(int element)
 {
-
+	stack_t *pointer = (stack_t *)malloc(sizeof(stack_t));
+	if (pointer == NULL)
+	{
+		printf("Error: malloc failed\n");
+		exit(EXIT_FAILURE);
+	}
+	else
+	{
+		if (temp == NULL)
+		{
+			pointer -> n = element;
+			pointer -> prev = NULL;
+			pointer -> next = NULL;
+		}
+		else
+		{
+			pointer -> n = element;
+			pointer -> prev = NULL;
+			pointer -> next = temp;
+		}
+		temp = pointer;
+	}
 }
 
 /** 
@@ -97,5 +113,11 @@ void push(int element)
 
 void pall(void)
 {
+	stack_t *pointer = temp;
 
+	while (pointer != NULL)
+	{
+		printf("%d\n", pointer -> n);
+		pointer = pointer -> next;
+	}
 }
