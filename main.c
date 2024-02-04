@@ -1,10 +1,10 @@
 #include "monty.h"
 
-/** 
+/**
  * main - an interpreter for Monty ByteCodes files.
  * @argc: arguments count
  * @argv: arguments vector
- * return: 0
+ * Return: 0 on success
  */
 
 int main(int argc, char *argv[])
@@ -69,10 +69,10 @@ int main(int argc, char *argv[])
 	}
 
 	fclose(file);
-	return (0);	
+	return (0);
 }
 
-/** 
+/**
  * push - a function that inserts an element into the stack
  * Prototype: void push(int element);
  * @element: integer to add to the stack
@@ -82,6 +82,7 @@ int main(int argc, char *argv[])
 void push(int element)
 {
 	stack_t *pointer = (stack_t *)malloc(sizeof(stack_t));
+
 	if (pointer == NULL)
 	{
 		fprintf(stderr, "Error: malloc failed\n");
@@ -91,21 +92,21 @@ void push(int element)
 	{
 		if (temp == NULL)
 		{
-			pointer -> n = element;
-			pointer -> prev = NULL;
-			pointer -> next = NULL;
+			pointer->n = element;
+			pointer->prev = NULL;
+			pointer->next = NULL;
 		}
 		else
 		{
-			pointer -> n = element;
-			pointer -> prev = NULL;
-			pointer -> next = temp;
+			pointer->n = element;
+			pointer->prev = NULL;
+			pointer->next = temp;
 		}
 		temp = pointer;
 	}
 }
 
-/** 
+/**
  * pall - a function that displays the elements of the stack
  * Prototype: void pall();
  * return: void
@@ -117,7 +118,7 @@ void pall(void)
 
 	while (pointer != NULL)
 	{
-		printf("%d\n", pointer -> n);
-		pointer = pointer -> next;
+		printf("%d\n", pointer->n);
+		pointer = pointer->next;
 	}
 }
