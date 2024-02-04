@@ -40,5 +40,6 @@ typedef struct instruction_s
 
 void push(int element);
 void pall(void);
+void execute_line(char *line);
 
 #endif
